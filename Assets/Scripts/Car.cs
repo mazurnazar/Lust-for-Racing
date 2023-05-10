@@ -5,29 +5,39 @@ using UnityEngine;
 
 public class Car : MonoBehaviour
 {
-    private float speed=0;
+    private float speed=1;
+    public float Speed { get => speed; set => speed = value; }
     private float speedUp = .01f;
 
     Rigidbody carRigidbody;
     Vector3 moveDirections;
-    [SerializeField]float fuel = 100f;
+    float fuelCap = 100f;
+    [SerializeField] float fuel 
     float fuelSpeed = .01f;
     [SerializeField] MoveCar moveCar;
     Vector2 direction;
     public bool canMove = true;
+    private float distanceToMove;
     // Start is called before the first frame update
     void Start()
     {
+        distanceToMove = transform.position.x * 2;
         direction = -transform.up;
         carRigidbody = GetComponent<Rigidbody>();
-        moveDirections = new Vector3(transform.position.x*2, 0, 0);
-       // StartCoroutine(Move(-1));
+        moveDirections = new Vector3(distanceToMove, 0, 0);
+        fuel = fuelCap;
+        // StartCoroutine(Move(-1));
+       // Debug.Log(CheckForBorders(Vector3.right));
     }
-
+    public void Refuel()
+    {
+        fuel = fuelCap;
+    }
     // Update is called once per frame
     void FixedUpdate()
     {
-        if (fuel > 0&&canMove) MoveForward();
+        if (fuel > 0 && canMove) MoveForward();
+        if (fuel > 0 && canMove) MoveForward();
     }
     public void MoveForward()
     {
@@ -44,12 +54,24 @@ public class Car : MonoBehaviour
         switch (direction)
         {
             case "left":
+                if(!CheckForBorders(-Vector3.right))
                 StartCoroutine(Move(-1));
                 break;
             case "right":
-                StartCoroutine(Move(1));
+                if (!CheckForBorders(Vector3.right))
+                    StartCoroutine(Move(1));
                 break;
         }
+    }
+    public bool CheckForBorders(Vector3 direction)
+    {
+        RaycastHit hit;
+        if (Physics.Raycast(transform.position, transform.TransformDirection(direction), out hit, distanceToMove))
+        {
+            //Debug.Log(hit.collider.name);
+            return true;
+        }
+        return false;
     }
     // move left
     public IEnumerator Move(int direction)
@@ -67,17 +89,14 @@ public class Car : MonoBehaviour
             i += 0.1f;
         }
         canMove = true;
-        
-
-        //transform.position -= moveDirections;
     }
-    // move right
-
-    // for slowing down and speeding up
     public IEnumerator ChangeSpeed(float newSpeed)
     {
         yield return new WaitForSeconds(0f);
         speed = newSpeed;
     }
-
+    private void OnCollisionEnter(Collision collision)
+    {
+        collision.gameObject.GetComponent<Obstacle>().CheckObstacle(this);
+    }
 }
