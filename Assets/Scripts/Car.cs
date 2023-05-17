@@ -5,29 +5,32 @@ using UnityEngine;
 
 public class Car : MonoBehaviour
 {
-    private float speed=1;
+    [SerializeField]private float speed=0;
     public float Speed { get => speed; set => speed = value; }
-    private float speedUp = .01f;
+    private float speedUp = .005f;
+    private float maxSpeed = 5f;
 
-    Rigidbody carRigidbody;
+    //Rigidbody carRigidbody;
     Vector3 moveDirections;
+
     float fuelCap = 100f;
-    [SerializeField] float fuel 
-    float fuelSpeed = .01f;
+    [SerializeField] float fuel;
+    float fuelSpeed = .05f;
+
     [SerializeField] MoveCar moveCar;
-    Vector2 direction;
+   // Vector2 direction;
     public bool canMove = true;
     private float distanceToMove;
+
+    [SerializeField] RoadSpawner roadSpawner;
     // Start is called before the first frame update
     void Start()
     {
         distanceToMove = transform.position.x * 2;
-        direction = -transform.up;
-        carRigidbody = GetComponent<Rigidbody>();
+       // direction = -transform.up;
+       // carRigidbody = GetComponent<Rigidbody>();
         moveDirections = new Vector3(distanceToMove, 0, 0);
         fuel = fuelCap;
-        // StartCoroutine(Move(-1));
-       // Debug.Log(CheckForBorders(Vector3.right));
     }
     public void Refuel()
     {
@@ -41,11 +44,9 @@ public class Car : MonoBehaviour
     }
     public void MoveForward()
     {
-        //carRigidbody.velocity = -transform.up * speed;
-      
-            transform.position += -transform.up * speed * Time.deltaTime;
-            speed += speedUp;
-            fuel -= fuelSpeed;
+        transform.position += -transform.up * speed * Time.deltaTime;
+        if (speed < maxSpeed) speed += speedUp;
+        fuel -= fuelSpeed;
     }
 
     // Add check for borders colliding
@@ -66,11 +67,7 @@ public class Car : MonoBehaviour
     public bool CheckForBorders(Vector3 direction)
     {
         RaycastHit hit;
-        if (Physics.Raycast(transform.position, transform.TransformDirection(direction), out hit, distanceToMove))
-        {
-            //Debug.Log(hit.collider.name);
-            return true;
-        }
+        if (Physics.Raycast(transform.position, transform.TransformDirection(direction), out hit, distanceToMove))  return true;
         return false;
     }
     // move left
@@ -97,6 +94,19 @@ public class Car : MonoBehaviour
     }
     private void OnCollisionEnter(Collision collision)
     {
-        collision.gameObject.GetComponent<Obstacle>().CheckObstacle(this);
+        if (collision.gameObject.GetComponent<Obstacle>())
+        {
+            Debug.Log(collision.gameObject.name);
+            collision.gameObject.GetComponent<Obstacle>().CheckObstacle(this);
+        }
+    }
+    private void OnTriggerEnter(Collider other)
+    {
+        if(other.gameObject.tag=="Spawn")
+        {
+            roadSpawner.MoveRoad();
+        } 
+        else
+        other.gameObject.GetComponent<Obstacle>().CheckObstacle(this);
     }
 }

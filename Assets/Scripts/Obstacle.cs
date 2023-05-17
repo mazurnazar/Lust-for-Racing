@@ -13,7 +13,6 @@ public enum Obstacles
 public class Obstacle : MonoBehaviour
 {
     public Obstacles obstacleType;
-    // Start is called before the first frame update
 
     public void CheckObstacle(Car car)
     {
@@ -22,17 +21,19 @@ public class Obstacle : MonoBehaviour
             case Obstacles.Cone:
                 ConeAction(car);
                 break;
-            case Obstacles.Fence:
-                GameOver();
-                break;
             case Obstacles.Oil:
                 OilAction(car);
+                break;
+            case Obstacles.Fence:
+                GameOver();
                 break;
             case Obstacles.Car:
                 GameOver();
                 break;
             case Obstacles.Fuel:
+                FuelAction(car);
                 break;
+
         }
     }    
     void ConeAction(Car car)
