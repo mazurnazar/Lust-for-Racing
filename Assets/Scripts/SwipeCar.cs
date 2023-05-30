@@ -2,22 +2,20 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
-public class MoveCar : MonoBehaviour
+public class SwipeCar : MonoBehaviour
 {
     [SerializeField] public Text text;
-    [SerializeField] GameObject player;
-    private bool isMoving;
+   // [SerializeField] GameObject player;
+    [SerializeField] PlayerMovement player;
     private Vector2 firstTouchPos, secondTouchPos, currentSwipe;
     private float timeClick;
     private float minSwipeLength = 200f;
-    private Rigidbody playerRigidbody;
     [SerializeField] private float speed = 5f;
     Car car;
 
     private void Start()
     {
-        playerRigidbody = player.GetComponent<Rigidbody>();
-        car = player.GetComponent<Car>();
+        //car = player.GetComponent<Car>();
     }
     private void Update()
     {
@@ -52,8 +50,8 @@ public class MoveCar : MonoBehaviour
                     currentSwipe.Normalize();
                     if (currentSwipe.y < 0.5f)
                     {
-                        if (currentSwipe.x > 0) car.MoveDirection("right");
-                        else if (currentSwipe.x < 0) car.MoveDirection("left");
+                        if (currentSwipe.x > 0) player.MoveDirection("right");
+                        else if (currentSwipe.x < 0) player.MoveDirection("left");
                     }
                 }
               

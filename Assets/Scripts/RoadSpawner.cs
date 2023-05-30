@@ -18,7 +18,7 @@ public class RoadSpawner : MonoBehaviour
         }
         offset = roads[1].transform.position.z - roads[0].transform.position.z;
         obstacleManager = GetComponent<ObstacleManager>();
-        Debug.Log(obstacleManager);
+      
         for (int i = 0; i < roads.Count; i++)
         {
            // Debug.Log(i);
@@ -37,4 +37,5 @@ public class RoadSpawner : MonoBehaviour
         obstacleManager.CreateObstacles(moveRoad);
         
     }
+    
 }
