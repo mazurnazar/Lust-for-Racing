@@ -621,8 +621,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   text: {fileID: 1176559278}
-  player: {fileID: 919132148715200403}
-  speed: 2
+  player: {fileID: 2142541242}
 --- !u!114 &963194230
 MonoBehaviour:
   m_ObjectHideFlags: 0

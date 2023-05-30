@@ -54,31 +54,27 @@ public class Obstacle : MonoBehaviour
         {
             if (!player.CheckForBorders(Vector3.right))
             {
-                StartCoroutine(MoveRight(player));
+                MoveRight(player);
             }
             else if (!player.CheckForBorders(-Vector3.right))
-                StartCoroutine(MoveLeft(player));
+                MoveLeft(player);
         }
         else
         {
             if (!player.CheckForBorders(-Vector3.right))
-                StartCoroutine(MoveLeft(player));
+                MoveLeft(player);
             else if (!player.CheckForBorders(Vector3.right))
-                StartCoroutine(MoveRight(player));
+                MoveRight(player);
         }
         Manager.Instance.obstacleNumber++;
     }
-    public IEnumerator MoveLeft(PlayerMovement player)
+    public void MoveLeft(PlayerMovement player)
     {
         player.animator.SetBool("MoveOilLeft", true);
-        yield return new WaitForEndOfFrame();
-        player.animator.SetBool("MoveOilLeft", false);
     }
-    public IEnumerator MoveRight(PlayerMovement player)
+    public void MoveRight(PlayerMovement player)
     {
         player.animator.SetBool("MoveOilRight", true);
-        yield return new WaitForEndOfFrame();
-        player.animator.SetBool("MoveOilRight", false);
     }
     void GameOver()
     {

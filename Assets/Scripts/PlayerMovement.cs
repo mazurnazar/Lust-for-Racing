@@ -71,7 +71,11 @@ public class PlayerMovement : MonoBehaviour
     {
         animator.SetBool("MoveLeft", false);
     }
-  
+    public void StopOilLeft()
+    {
+        animator.SetBool("MoveOilLeft", false);
+    }
+
     //move right
     public void MoveRight()
     {
@@ -80,6 +84,10 @@ public class PlayerMovement : MonoBehaviour
     public void StopRight()
     {
         animator.SetBool("MoveRight", false);
+    }
+    public void StopOilRight()
+    {
+        animator.SetBool("MoveOilRight", false);
     }
 
 }

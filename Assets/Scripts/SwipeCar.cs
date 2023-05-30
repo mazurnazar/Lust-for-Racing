@@ -10,7 +10,7 @@ public class SwipeCar : MonoBehaviour
     private Vector2 firstTouchPos, secondTouchPos, currentSwipe;
     private float timeClick;
     private float minSwipeLength = 200f;
-    [SerializeField] private float speed = 5f;
+    //[SerializeField] private float speed = 5f;
     Car car;
 
     private void Start()
