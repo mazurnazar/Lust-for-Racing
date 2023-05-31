@@ -22,15 +22,6 @@ public class ObstacleManager : MonoBehaviour
     //public float offset;
     public void CreateObstacles(GameObject road)
     {
- /*    
-        startRoad = road.transform.Find("Start").gameObject;
-        endRoad = road.transform.Find("End").gameObject;
-        leftBorder = road.transform.Find("leftBorder").gameObject;
-        rightBorder = road.transform.Find("rightBorder").gameObject;
-        roadWidth = rightBorder.transform.localPosition.x - leftBorder.transform.localPosition.x;
-
-        distanceBetweenObst= (endRoad.transform.localPosition.y-startRoad.transform.localPosition.y)/ 15f;
- */
         InitializeObjects(road);
         List<float> yPositions = new List<float>();
         
@@ -38,9 +29,7 @@ public class ObstacleManager : MonoBehaviour
         int counter = 0;
         while (counter <= r2)
         {
-            // int r = Random.Range(0, ObstaclesPrefabs.Count); //for instantiatiing prefabs
             int r = Random.Range(0, pools.Length); // for objectpool
-            // GameObject obstacle = Instantiate(ObstaclesPrefabs[r]);
             GameObject obstacle = pools[r].GetPooledObject();
             obstacle.transform.parent = road.transform;
 
@@ -130,7 +119,7 @@ public class ObstacleManager : MonoBehaviour
     }
     public void CreateFuel()
     {
-        float xPos = Random.Range(0, 2) == 0 ? -0.5f : .5f;
+        float xPos = Random.Range(0, 2) == 0 ? -0.7f : 0.7f;
         if (fuel == null)
             fuel = Instantiate(fuelPrefab);
         fuel.transform.position = new Vector3(xPos, 0.5f,Player.transform.position.z +20f);

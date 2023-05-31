@@ -6,7 +6,7 @@ public class PlayerMovement : MonoBehaviour
 {
     private GameObject player;
     public Animator animator;
-    [SerializeField] private float currentSpeed = 0;
+    [SerializeField] public float currentSpeed = 0;
     public float Speed { get => currentSpeed; set => currentSpeed = value; }
     private Car car;
     private float distanceToMove;
@@ -14,6 +14,8 @@ public class PlayerMovement : MonoBehaviour
     private float fuelCap = 100f;
     [SerializeField] float currentFuel;
     public bool canMove = true;
+    public bool canSlide = true;
+    public AnimationClip oilLeft, oilRight;
     // Start is called before the first frame update
     void Start()
     {
@@ -49,11 +51,13 @@ public class PlayerMovement : MonoBehaviour
         {
             case "left":
                 if (!CheckForBorders(-Vector3.right))
-                    MoveLeft();
+                  //  MoveLeft();
+                Move("MoveLeft");
                 break;
             case "right":
                 if (!CheckForBorders(Vector3.right))
-                    MoveRight();
+                   // MoveRight();
+                Move("MoveRight");
                 break;
         }
     }
@@ -63,31 +67,49 @@ public class PlayerMovement : MonoBehaviour
         if (Physics.Raycast(player.transform.position, transform.TransformDirection(direction), out hit, distanceToMove)) return true;
         return false;
     }
+    public void Move(string direction)
+    {
+        animator.SetBool(direction, true);
+        animator.SetFloat("speed", currentSpeed / 20f + 0.5f);
+        canSlide = false;
+    }
+    public void StopMove(string direction)
+    {
+        animator.SetBool(direction, false);
+        canSlide = true ;
+    }
+    /*
     public void MoveLeft()
     {
         animator.SetBool("MoveLeft", true);
+        canSlide = false;
     }
     public void StopLeft()
     {
         animator.SetBool("MoveLeft", false);
+        canSlide = true;
     }
     public void StopOilLeft()
     {
         animator.SetBool("MoveOilLeft", false);
+        canSlide = true;
     }
 
     //move right
     public void MoveRight()
     {
         animator.SetBool("MoveRight", true);
+        canSlide = false;
     }
     public void StopRight()
     {
         animator.SetBool("MoveRight", false);
+        canSlide = true;
     }
     public void StopOilRight()
     {
         animator.SetBool("MoveOilRight", false);
+        canSlide = true;
     }
-
+    */
 }

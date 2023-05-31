@@ -35,7 +35,6 @@ public class RoadSpawner : MonoBehaviour
         moveRoad.transform.position = new Vector3(0, 0, newPosZ);
         roads.Add(moveRoad);
         obstacleManager.CreateObstacles(moveRoad);
-        
     }
     
 }

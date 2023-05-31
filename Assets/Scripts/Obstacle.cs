@@ -15,7 +15,6 @@ public class Obstacle : MonoBehaviour
 {
     public Obstacles obstacleType;
     public ObjectPool ObjectPool;
-
     public void CheckObstacle(PlayerMovement player)
     {
         switch(obstacleType)
@@ -46,7 +45,8 @@ public class Obstacle : MonoBehaviour
 
     void OilAction(PlayerMovement player)
     {
-        if (!player.canMove) return;
+        if (!player.canSlide) return;
+        player.canSlide = false;
         GetComponent<SphereCollider>().isTrigger = false;
         GetComponent<SphereCollider>().enabled = false;
         int r = Random.Range(0, 2);
@@ -54,28 +54,37 @@ public class Obstacle : MonoBehaviour
         {
             if (!player.CheckForBorders(Vector3.right))
             {
-                MoveRight(player);
+                player.Move("MoveOilRight");
             }
             else if (!player.CheckForBorders(-Vector3.right))
-                MoveLeft(player);
+                player.Move("MoveOilLeft");
+           // MoveLeft(player);
         }
         else
         {
             if (!player.CheckForBorders(-Vector3.right))
-                MoveLeft(player);
+                player.Move("MoveOilLeft");
+               // MoveLeft(player);
             else if (!player.CheckForBorders(Vector3.right))
-                MoveRight(player);
+                player.Move("MoveOilRight");
+            //MoveRight(player);
         }
         Manager.Instance.obstacleNumber++;
     }
+    /*
     public void MoveLeft(PlayerMovement player)
     {
+       
         player.animator.SetBool("MoveOilLeft", true);
+        player.animator.SetFloat("speed", player.currentSpeed / 20f + 0.5f);
+
+
     }
     public void MoveRight(PlayerMovement player)
     {
         player.animator.SetBool("MoveOilRight", true);
-    }
+        player.animator.SetFloat("speed", player.currentSpeed / 20f + 0.5f);
+    }*/
     void GameOver()
     {
         Manager.Instance.isPlaying = false;
@@ -90,6 +99,7 @@ public class Obstacle : MonoBehaviour
     void FuelAction(PlayerMovement player)
     {
         player.Refuel();
+        Destroy(gameObject);
     }
 
 }
