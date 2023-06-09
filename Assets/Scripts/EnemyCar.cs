@@ -27,4 +27,11 @@ public class EnemyCar : MonoBehaviour
             transform.position -=new Vector3(0,0, minCarDistance * direction);
         }
     }
+    private void OnTriggerEnter(Collider other)
+    {
+        if (other.CompareTag("Spawn"))
+        {
+            other.transform.parent.GetComponent<CarGenerator>().canGenerate = false;
+        }
+    }
 }

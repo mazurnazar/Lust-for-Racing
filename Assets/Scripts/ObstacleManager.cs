@@ -7,7 +7,7 @@ public class ObstacleManager : MonoBehaviour
     [SerializeField] GameObject[] Cars;
     [SerializeField] GameObject fuelPrefab;
 
-    GameObject startRoad, endRoad, leftBorder, rightBorder;
+    //GameObject startRoad, endRoad, leftBorder, rightBorder;
     [SerializeField] ObjectPool[] pools;
     GameObject fuel;
    
@@ -20,6 +20,7 @@ public class ObstacleManager : MonoBehaviour
     float distanceBetweenObst;
     bool createFuel = true;
     //public float offset;
+    /*
     public void CreateObstacles(GameObject road)
     {
         InitializeObjects(road);
@@ -36,7 +37,7 @@ public class ObstacleManager : MonoBehaviour
             float yPos = Random.Range(startRoad.transform.localPosition.y,endRoad.transform.localPosition.y);
             float xPos = Random.Range(0, 2) == 0 ? -roadWidth / roadLines / 2 : roadWidth / roadLines / 2;
 
-            /*  bool goodPos = true;
+              bool goodPos = true;
               if(yPositions.Count>0)
               {
                   foreach (var item in yPositions)
@@ -50,7 +51,7 @@ public class ObstacleManager : MonoBehaviour
                   yPositions.Add(yPos);
               }
               if (!goodPos) continue;
-            */
+            
             if (!CheckDistance(yPos, yPositions)) continue;
             
             obstacle.transform.localPosition = new Vector3(xPos, yPos, obstacle.transform.localPosition.z);
@@ -59,7 +60,7 @@ public class ObstacleManager : MonoBehaviour
             counter++;
         }
         
-    }
+    }*/
     private void Update()
     {
 
@@ -78,7 +79,7 @@ public class ObstacleManager : MonoBehaviour
             createFuel = true;
         }
     }
-
+    /*
     void InitializeObjects(GameObject road)
     {
         startRoad = road.transform.Find("Start").gameObject;
@@ -116,17 +117,13 @@ public class ObstacleManager : MonoBehaviour
                 item.GetComponent<Obstacle>().ObjectPool.ReturnToPool(item.gameObject);
             }
         }
-    }
+    }*/
     public void CreateFuel()
     {
         float xPos = Random.Range(0, 2) == 0 ? -0.7f : 0.7f;
         if (fuel == null)
             fuel = Instantiate(fuelPrefab);
         fuel.transform.position = new Vector3(xPos, 0.5f,Player.transform.position.z +20f);
-    }
-    public void CreateCars()
-    {
-
     }
 
 }

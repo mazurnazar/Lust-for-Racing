@@ -101,5 +101,6 @@ public class Obstacle : MonoBehaviour
         player.Refuel();
         Destroy(gameObject);
     }
+   
 
 }

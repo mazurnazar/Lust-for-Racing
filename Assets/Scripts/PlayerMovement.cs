@@ -78,38 +78,4 @@ public class PlayerMovement : MonoBehaviour
         animator.SetBool(direction, false);
         canSlide = true ;
     }
-    /*
-    public void MoveLeft()
-    {
-        animator.SetBool("MoveLeft", true);
-        canSlide = false;
-    }
-    public void StopLeft()
-    {
-        animator.SetBool("MoveLeft", false);
-        canSlide = true;
-    }
-    public void StopOilLeft()
-    {
-        animator.SetBool("MoveOilLeft", false);
-        canSlide = true;
-    }
-
-    //move right
-    public void MoveRight()
-    {
-        animator.SetBool("MoveRight", true);
-        canSlide = false;
-    }
-    public void StopRight()
-    {
-        animator.SetBool("MoveRight", false);
-        canSlide = true;
-    }
-    public void StopOilRight()
-    {
-        animator.SetBool("MoveOilRight", false);
-        canSlide = true;
-    }
-    */
 }
