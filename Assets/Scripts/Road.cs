@@ -11,6 +11,7 @@ public class Road : MonoBehaviour
     public float roadWidth;
     public float distanceBetweenObst;
     public int roadLines;
+    public GameObject buildingPrefab;
     public GameObject building;
     [SerializeField] ObjectPool[] pools;
 
@@ -32,21 +33,16 @@ public class Road : MonoBehaviour
     public void CreateObstacles()
     {
         
-        // zPositions = new List<float>();
-
         int r2 = Random.Range(0, ObstaclesNumber + 1);
         int counter = 0;
-        while (counter <= r2)
+        while (counter < r2)
         {
-           // Debug.Log(i);
-            //i++;
-
            
             float xPos = Random.Range(0, 2) == 0 ? -roadWidth / roadLines / 2 : roadWidth / roadLines / 2;
             float zPos = Random.Range(startRoad.transform.position.z, endRoad.transform.position.z);
 
             if (!CheckDistance(zPos, zPositions)) { counter++; continue; }
-          //  Debug.Log(zPos);
+
             int r = Random.Range(0, pools.Length); // for objectpool
             GameObject obstacle = pools[r].GetPooledObject();
             obstacle.transform.parent = transform;
@@ -91,7 +87,9 @@ public class Road : MonoBehaviour
     }
     public void CreateBuildings()
     {
-        GameObject newBuilding = Instantiate(building, transform.position,Quaternion.identity);
-        newBuilding.transform.parent = transform;
+        if(building!=null) Destroy(building);
+        building = Instantiate(buildingPrefab, transform.position,Quaternion.identity);
+        building.transform.parent = transform;
     }
+    
 }

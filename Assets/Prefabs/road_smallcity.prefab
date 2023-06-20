@@ -553,7 +553,6 @@ GameObject:
   - component: {fileID: 4651720553394720681}
   - component: {fileID: 6291439152529807013}
   - component: {fileID: 272948530016389159}
-  - component: {fileID: 7260167955760090097}
   m_Layer: 0
   m_Name: road_smallcity
   m_TagString: Untagged
@@ -658,7 +657,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b282d6e26d5d5164f9388c71a45dbf65, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  ObstaclesNumber: 5
+  ObstaclesNumber: 1
   zPositions: []
   startRoad: {fileID: 1450118451}
   endRoad: {fileID: 8036122914209931580}
@@ -667,27 +666,12 @@ MonoBehaviour:
   roadWidth: 0
   distanceBetweenObst: 0
   roadLines: 2
+  building: {fileID: 0}
   pools:
   - {fileID: 0}
   - {fileID: 0}
   - {fileID: 0}
---- !u!114 &7260167955760090097
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6597429593611071100}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 77fbc365780d67c4ca1d9cc6084512ac, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  carPrefabs:
-  - {fileID: 1797740858001909671, guid: 08d33701532e3604eba93432aba37067, type: 3}
-  - {fileID: 2360011432760682409, guid: 6b00c723c1d61ad49978b210b1fab29a, type: 3}
-  spawnTimer: 0
-  canGenerate: 1
+  roadNumber: 0
 --- !u!1 &8036122914209931580
 GameObject:
   m_ObjectHideFlags: 0

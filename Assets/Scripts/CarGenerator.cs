@@ -6,50 +6,50 @@ public class CarGenerator : MonoBehaviour
 {
     // Start is called before the first frame update
     [SerializeField] GameObject[] carPrefabs;
-    float spawnInterval = 3f;
-    Road road;
+    public GameObject road;
+    RoadSpawner roadSpawner;
+    float spawnInterval = 2f;
     Vector3 spawnPos;
     [SerializeField] float spawnTimer;
     public bool canGenerate = true;
-    [SerializeField] GameObject player;
 
     void Start()
     {
-        road = GetComponent<Road>();
-        spawnPos = road.endRoad.transform.position;
+        roadSpawner = GetComponent<RoadSpawner>();
+        road = roadSpawner.roads[roadSpawner.roads.Count-2].gameObject;
+        spawnPos = road.GetComponent<Road>().endRoad.transform.position;
+
         spawnTimer = spawnInterval;
-        player = GameObject.Find("Player");
-        if(GetComponent<Road>().roadNumber>1) SpawnCar();
+        StartCoroutine( SpawnCar());
+        Manager.Instance.stopStart += StopGenerate;
     }
 
     // Update is called once per frame
-    void Update()
+    IEnumerator SpawnCar()
     {
-        if (canGenerate && DistanceToPlayer()) 
+        while (canGenerate)
         {
-            spawnTimer -= Time.deltaTime; // Decrease the spawn timer
+            spawnTimer = spawnInterval + Random.Range(0, 2);
+            int randomCarIndex = Random.Range(0, carPrefabs.Length); // Randomly select a car prefab
+                                                                     // int randomLaneIndex = Random.Range(0, lanes.Length); // Randomly select a lane
+            spawnPos = road.GetComponent<Road>().endRoad.transform.position;
 
-            if (spawnTimer <= 0)
-            {
-                SpawnCar(); // Spawn a car
-                spawnTimer = spawnInterval + Random.Range(0, 2); // Reset the spawn timer
-            }
+            // Adjust the spawn position based on the lane width
+            int direction = Random.Range(0, 2);
+            spawnPos.x = direction == 0 ? -0.7f : 0.7f;
+
+            GameObject newCar = Instantiate(carPrefabs[randomCarIndex], spawnPos, Quaternion.identity);
+            Vector3 rotation = Vector3.zero;
+            rotation.y = direction == 0 ? 0 : 180;
+            newCar.transform.rotation = Quaternion.Euler(rotation);
+            yield return new WaitForSeconds(spawnTimer);
         }
+        
     }
-    void SpawnCar()
+    public void StopGenerate()
     {
-
-        int randomCarIndex = Random.Range(0, carPrefabs.Length); // Randomly select a car prefab
-                                                                 // int randomLaneIndex = Random.Range(0, lanes.Length); // Randomly select a lane
-        spawnPos = road.endRoad.transform.position;
-
-        // Adjust the spawn position based on the lane width
-        spawnPos.x += Random.Range(0,2)==0?-0.7f:0.7f;
-        Instantiate(carPrefabs[randomCarIndex], spawnPos, Quaternion.identity);
+        canGenerate = !canGenerate;
     }
-    bool DistanceToPlayer()
-    {
-        if (GetComponent<Road>().endRoad.transform.position.z - player.transform.position.z < 5f) return false;
-        else return true;
-    }
+        
+
 }

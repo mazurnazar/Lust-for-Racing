@@ -15,6 +15,10 @@ public class Manager : MonoBehaviour
     public float[] BestTimes ;
     public int obstacleNumber;
     public float totalDistance;
+    public delegate void StopStart();
+    public  event StopStart stopStart;
+    public bool Sound = true;
+    public bool Vibration = true;
     // Start is called before the first frame update
 
     public void Awake()
@@ -47,7 +51,7 @@ public class Manager : MonoBehaviour
     public void LoadInfo()
     {
         string path = Application.persistentDataPath + "/savefile.json";
-      //  Debug.Log(Application.persistentDataPath);
+        Debug.Log(Application.persistentDataPath);
         if (File.Exists(path))
         {
             string json = File.ReadAllText(path);
@@ -81,4 +85,19 @@ public class Manager : MonoBehaviour
     {
         if (Input.GetKeyDown(KeyCode.L)) SceneManager.LoadScene(0);
     }
+    public void StopGame()
+    {
+        stopStart.Invoke();
+    }
+    public void GameOver()
+    {
+        isPlaying = false;
+        CheckToSave(transform.position.z);
+        obstacleNumber++;
+        totalDistance += transform.position.z;
+        SaveInfo();
+        SceneManager.LoadScene(0);
+        isPlaying = true;
+    }
+        
 }

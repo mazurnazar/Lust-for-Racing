@@ -8,7 +8,7 @@ public class Car : MonoBehaviour
     [SerializeField] PlayerMovement player;
     public float speedUp = .01f;
     public float maxSpeed = 10f;
-    public float fuelSpeed = .1f;
+    public float fuelSpeed = 10f;
 
     [SerializeField] RoadSpawner roadSpawner;
     void Awake()

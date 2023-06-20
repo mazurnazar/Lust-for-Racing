@@ -4,34 +4,30 @@ using UnityEngine;
 
 public class EnemyCar : MonoBehaviour
 {
-    [SerializeField] public float speed;
+    [SerializeField] float speed = 2;
     private int direction;
-    private float minCarDistance = 2f;
-
+    [SerializeField] GameObject player;
+    bool canMove = true;
     // Start is called before the first frame update
     void Start()
     {
-        direction = transform.rotation.z == 0 ? 1 : -1;
+        direction = transform.parent.rotation.y == 0 ? -1 : 1;
+        player = GameObject.Find("Player");
+        Manager.Instance.stopStart += StopCar;
     }
 
     // Update is called once per frame
     void Update()
     {
-        transform.position += Vector3.forward * direction* speed * Time.deltaTime;
-    }
-    private void OnCollisionEnter(Collision collision)
-    {
-        if (collision.gameObject.GetComponent<EnemyCar>())
+        if (canMove)
         {
-            speed = collision.gameObject.GetComponent<EnemyCar>().speed;
-            transform.position -=new Vector3(0,0, minCarDistance * direction);
+            transform.position += Vector3.forward * direction * speed * Time.deltaTime;
         }
+        if (transform.position.z < player.transform.position.z) Destroy(gameObject);
+
     }
-    private void OnTriggerEnter(Collider other)
+    public void StopCar()
     {
-        if (other.CompareTag("Spawn"))
-        {
-            other.transform.parent.GetComponent<CarGenerator>().canGenerate = false;
-        }
+        canMove = !canMove;
     }
 }
